@@ -1,7 +1,7 @@
 package com.students.rest_demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "studentsTable")
 
@@ -9,14 +9,14 @@ public class Student {
 
     String name;
 
-    public Student(String name, String email, String id) {
+    public Student(String name, String email, int id) {
         this.name = name;
         this.email = email;
         this.id = id;
     }
 
     String email;
-    String id;
+    int id;
     public String getName() {
         return name;
     }
@@ -32,12 +32,13 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

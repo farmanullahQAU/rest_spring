@@ -20,7 +20,7 @@ public class StudentController {
 try
 {
 
-   Student student= studentService.getUserInfo(userid);
+   Student student= studentService.getstudentinfo(userid);
     return new ResponseEntity<Student>(student, HttpStatus.OK);
 
 }
@@ -33,7 +33,7 @@ catch (NoSuchElementException err){
     public ResponseEntity<String> createUser(@RequestBody Student student ){
 
     try{
-        studentService.creatUser(student);
+        studentService.savestudents(student);
 
         return new ResponseEntity<String>("successsfull added", HttpStatus.OK);
 
