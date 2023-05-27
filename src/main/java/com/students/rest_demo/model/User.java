@@ -3,7 +3,7 @@ package com.students.rest_demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "info")
+@Table(name = "infoTable")
 public class User {
      int id;
      String firstName;
