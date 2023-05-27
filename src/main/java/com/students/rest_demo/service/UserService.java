@@ -25,7 +25,24 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
+    public void updateUser(Integer id,User user
+    ){
+
+        User usr= this.userRepository.findById(id).get();
+
+        usr.setFirstName(user.getFirstName());
+        usr.setLastName(user.getLastName());
+        userRepository.save(usr);
+
+
+    }
+
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    public List<User> getall() {
+
+        return userRepository.findAll();
     }
 }

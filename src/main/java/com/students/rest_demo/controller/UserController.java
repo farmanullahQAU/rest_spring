@@ -3,6 +3,7 @@ package com.students.rest_demo.controller;
 import com.students.rest_demo.model.User;
 import com.students.rest_demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +18,15 @@ public class UserController {
     @Autowired
     UserService userService;
 
-//    @GetMapping("")
-////    public List<User> list() {
-////
-////        try {
-////            List<User> user = userService.listAllUser();
-////            return new ResponseEntity<User>(user, HttpStatus.OK);
-////        } catch (NoSuchElementException e) {
-////            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-////        }
-////    }
+@GetMapping("")
 
+public ResponseEntity<List<User>> allUsers(){
+
+
+   List<User> list=   userService.getall();
+
+    return new ResponseEntity<List<User>>(list,HttpStatus.NOT_FOUND);
+}
     @GetMapping("/{id}")
     public ResponseEntity<User> get(@PathVariable Integer id) {
         try {
@@ -38,40 +37,53 @@ public class UserController {
         }
     }
     @PostMapping("/")
-    public String add(@RequestBody User user) {
+    public ResponseEntity<String> add(@RequestBody User user) {
 
-        System.out.println(user);
 
         try
         {
 
             userService.saveUser(user);
 
-      return "added"
-;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Custom-Header", "wow added");
+            return  new ResponseEntity<String>("added successfully",headers,HttpStatus.OK);
+
 
 
 
         }
         catch (NoSuchElementException e){
 
-        return "EEEEEEEEEEEEEEE";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Custom-Header", "foo");
+            return  new ResponseEntity<String>("custom",headers,HttpStatus.NOT_FOUND);
+
+
         }
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody User user, @PathVariable Integer id) {
-        try {
-            User existUser = userService.getUser(id);
-            user.setId(id);
-            userService.saveUser(user);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("/{userid}")
+public ResponseEntity<Boolean> updateUser(@PathVariable Integer userid,@RequestBody User user){
+        this.userService.updateUser(userid,user);
+        return  new ResponseEntity<Boolean>(true,HttpStatus.OK);
+
+
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
 
-        userService.deleteUser(id);
-    }
+try{
+    userService.deleteUser(id);
+    return  new ResponseEntity<String>("deleted successfully",HttpStatus.OK);
+
+}
+catch (NoSuchElementException err){
+
+    return  new ResponseEntity<String>("something went wrong",HttpStatus.NOT_FOUND);
+
+}
+
+}
 }
