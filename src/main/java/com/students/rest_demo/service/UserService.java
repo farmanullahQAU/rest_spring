@@ -1,10 +1,13 @@
 package com.students.rest_demo.service;
 
 
+import com.students.rest_demo.exceptions.NotFoundException;
 import com.students.rest_demo.model.User;
 import com.students.rest_demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +25,22 @@ public class UserService {
     }
 
     public User getUser(Integer id) {
-        return userRepository.findById(id).get();
+if(
+        userRepository.findById(id).isEmpty()
+){
+
+    throw  new NotFoundException("user not exist with");
+}
+else{
+
+  return  userRepository.findById(id).get();
+
+}
+
+
+
+
+
     }
 
     public void updateUser(Integer id,User user
@@ -43,6 +61,10 @@ public class UserService {
 
     public List<User> getall() {
 
-        return userRepository.findAll();
+        if(
+         userRepository.findAll().isEmpty()
+
+        ) throw new NotFoundException("no user found");
+return   userRepository.findAll();
     }
 }
