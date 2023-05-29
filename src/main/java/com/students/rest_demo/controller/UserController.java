@@ -26,7 +26,7 @@ public class UserController {
 public ResponseEntity<Object> allUsers(){
 
 
-//   List<User> list=   userService.getall();
+
 
 return  ResponseHandler.responseBuilder("list of users",HttpStatus.OK,this.userService.getall());
 }

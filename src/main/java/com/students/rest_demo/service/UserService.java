@@ -17,7 +17,20 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     public List<User> listAllUser() {
-        return userRepository.findAll();
+
+        if(
+         userRepository.findAll().isEmpty()
+
+        ){
+            throw  new NotFoundException("user list not exist ");
+
+
+        }
+
+        else{
+
+            return    userRepository.findAll();
+        }
     }
 
     public void saveUser(User user) {
